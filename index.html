@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Master | Learning & Speed</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Typing Master</div>
+    <nav>
+        <button onclick="switchView('test')" id="nav-test" class="active">Speed Test</button>
+        <button onclick="switchView('game')" id="nav-game">Game Zone</button>
+        <button onclick="switchView('learn')" id="nav-learn">Learn</button>
+        <button onclick="switchView('profile')" id="nav-profile">Stats</button>
+    </nav>
+</header>
+
+<main>
+    <!-- SPEED TEST MODE -->
+    <div id="view-test" class="view active">
+        <div class="stats-bar">
+            <div class="stat-box"><span id="timer" class="stat-val">00:00</span><span class="stat-label">Timer</span></div>
+            <div class="stat-box"><span id="wpm" class="stat-val">0</span><span class="stat-label">WPM</span></div>
+            <div class="stat-box"><span id="accuracy" class="stat-val">100%</span><span class="stat-label">Accuracy</span></div>
+            <div class="stat-box"><span id="corrected-stat" class="stat-val">0</span><span class="stat-label">Fixed</span></div>
+            <div class="stat-box">
+                <select id="test-difficulty" onchange="resetTest()" style="width: auto;">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard" selected>Hard</option>
+                </select>
+                <span class="stat-label">Level</span>
+            </div>
+        </div>
+
+        <div id="typing-viewport" onclick="focusInput()">
+            <div id="focal-point"></div>
+            <div id="text-strip"></div>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; margin-top: 2rem; align-items: center;">
+            <div style="display: flex; gap: 0.5rem;">
+                <button class="btn btn-outline" onclick="setTimerLimit(60)">1 Minute</button>
+                <button class="btn btn-outline" onclick="setTimerLimit(180)">3 Minutes</button>
+            </div>
+            <div id="practice-label" style="font-weight: 700; color: var(--accent); display: none;">Row Practice Active</div>
+            <button class="btn btn-primary" onclick="resetTest()">Restart Test</button>
+        </div>
+    </div>
+
+    <!-- GAME MODE -->
+    <div id="view-game" class="view">
+        <div id="game-arena">
+            <div class="game-hud">
+                <div class="hud-item">SCORE: <span id="game-score">0</span></div>
+                <div class="hud-item" style="color:var(--error)">LIVES: <span id="game-lives">❤️❤️❤️</span></div>
+            </div>
+            <div id="game-overlay" class="game-overlay">
+                <h2 style="margin-bottom: 0.5rem;">Balloon Burst</h2>
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted); text-align:center;">Word difficulty increases. Speed stays constant.</p>
+                
+                <div style="margin-bottom: 2rem;">
+                    <select id="game-difficulty-select">
+                        <option value="easy">Easy Words</option>
+                        <option value="medium" selected>Medium Words</option>
+                        <option value="hard">Hard Words</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" onclick="startGame()" style="width: 200px;">Start Game</button>
+            </div>
+            <div id="game-input-display">_</div>
+        </div>
+        <div class="stats-bar" style="margin-top: 1rem;">
+            <div class="stat-box"><span id="game-wpm" class="stat-val">0</span><span class="stat-label">Live WPM</span></div>
+            <div class="stat-box"><span id="game-best" class="stat-val">0</span><span class="stat-label">High Score</span></div>
+        </div>
+    </div>
+
+    <!-- LEARN MODE -->
+    <div id="view-learn" class="view">
+        <h2 style="margin-bottom: 0.5rem;">Learning Path</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Master each row of the keyboard to build muscle memory.</p>
+        <div id="lesson-container" class="lesson-grid"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="view-profile" class="view">
+        <div class="card">
+            <h2 style="margin-bottom: 1rem;">Performance Statistics</h2>
+            
+            <div class="graph-container">
+                <canvas id="history-graph"></canvas>
+            </div>
+
+            <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">Recent Typing Sessions</h3>
+            <div id="history-list"></div>
+        </div>
+    </div>
+</main>
+
+<input type="text" id="hidden-input" autocomplete="off" spellcheck="false" autofocus>
+
+<!-- Result Modal -->
+<div id="modal-result" class="modal">
+    <div class="modal-content">
+        <h2 id="modal-title" style="margin-bottom: 1rem; color: var(--accent);">Result</h2>
+        <div class="stats-bar" style="margin: 1.5rem 0;">
+            <div class="stat-box"><span id="modal-wpm" class="stat-val">0</span><span class="stat-label">WPM</span></div>
+            <div class="stat-box"><span id="modal-acc" class="stat-val">0%</span><span class="stat-label">Acc</span></div>
+        </div>
+        <div id="modal-extra-stat" style="margin-bottom: 1.5rem; font-weight: 700; color: var(--text-muted);"></div>
+        <button class="btn btn-primary" style="width:100%" onclick="closeModal()">Continue</button>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
